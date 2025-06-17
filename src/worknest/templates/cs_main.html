@@ -1,0 +1,72 @@
+<h2>📋 상담 목록</h2>
+
+<!-- 🔍 검색 및 필터 폼 -->
+<form method="GET" style="margin-bottom: 20px;">
+    <input type="text" name="search" placeholder="상담자 또는 고객사" value="{{ search }}">
+    <select name="status">
+        <option value="all" {% if status_filter=='all' %}selected{% endif %}>전체</option>
+        <option value="진행중" {% if status_filter=='진행중' %}selected{% endif %}>진행중</option>
+        <option value="완료" {% if status_filter=='완료' %}selected{% endif %}>완료</option>
+    </select>
+    <button type="submit">검색</button>
+</form>
+
+{% if message %}
+<script>
+    alert("{{ message }}");
+</script>
+{% endif %}
+
+<!-- 📄 상담 리스트 테이블 -->
+<table border="1" cellpadding="8">
+<thead>
+    <tr>
+        <th>ID</th>
+        <th>고객사</th>
+        <th>상담자</th>
+        <th>카테고리</th>
+        <th>상태</th>
+        <th>등록일</th>
+        <th>업데이트</th> 
+    </tr>
+</thead>
+<tbody>
+    {% for contact in contacts %}
+    <tr>
+        <td><a href="{{ url_for('cs_detail', contact_id=contact._id) }}">{{ contact._id }}</a></td>
+        <td>{{ contact.client_name }}</td>
+        <td>{{ contact.writer }}</td>
+        <td>{{ contact.category }}</td>
+        <td>{{ contact.status }}</td>
+        <td>{{ contact.created_at.strftime('%Y-%m-%d') }}</td>
+        <td>
+            <!-- ✏️ 수정 버튼 -->
+            <a href="{{ url_for('cs_update', contact_id=contact._id) }}">
+                <button type="button">수정</button>
+            </a>
+
+            <!-- ❌ 삭제 버튼 (POST 요청 + hidden input 활용) -->
+            <form action="{{ url_for('cs_update', contact_id=contact._id) }}" method="POST" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <input type="hidden" name="action" value="delete">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7">검색 결과가 없습니다.</td></tr>
+    {% endfor %}
+</tbody>
+</table>
+
+<!-- 📌 페이징 -->
+<div style="margin-top: 20px;">
+    {% if page > 1 %}
+        <a href="?search={{ search }}&status={{ status_filter }}&page={{ page - 1 }}">이전</a>
+    {% endif %}
+
+    페이지 {{ page }} / {{ (total_count // 10) + (1 if total_count % 10 else 0) }}
+
+    {% if page * 10 < total_count %}
+        <a href="?search={{ search }}&status={{ status_filter }}&page={{ page + 1 }}">다음</a>
+    {% endif %}
+</div>

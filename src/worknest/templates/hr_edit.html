@@ -1,0 +1,33 @@
+<h2>👤 직원 수정</h2>
+<form method="POST">
+<label>이름:</label><br>
+<input type="text" name="name" value="{{ emp.name }}" required><br>
+
+<label>부서:</label><br>
+<input type="text" name="department" value="{{ emp.department }}"><br>
+
+<label>직급:</label><br>
+<input type="text" name="position" value="{{ emp.position }}"><br>
+
+<label>이메일:</label><br>
+<input type="email" name="email" value="{{ emp.email }}"><br>
+
+<label>전화번호:</label><br>
+<input type="text" name="phone" value="{{ emp.phone }}"><br>
+
+<label>입사일:</label><br>
+<input type="date" name="hire_date" value="{{ emp.hire_date_str }}"><br>
+
+<label>퇴사일:</label><br>
+<input type="date" name="retire_date" value="{{ emp.retire_date_str }}"><br>
+
+<label>고용 형태:</label><br>
+<select name="employment_type">
+    <option value="정규직" {% if emp.employment_type == '정규직' %}selected{% endif %}>정규직</option>
+    <option value="계약직" {% if emp.employment_type == '계약직' %}selected{% endif %}>계약직</option>
+    <option value="인턴" {% if emp.employment_type == '인턴' %}selected{% endif %}>인턴</option>
+    <option value="퇴사" {% if emp.employment_type == '퇴사' %}selected{% endif %}>퇴사</option>
+</select><br><br>
+
+<button type="submit">수정 완료</button>
+</form>

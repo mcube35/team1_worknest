@@ -1,0 +1,69 @@
+
+<form method="POST">
+<h2>📝 상담 정보</h2>
+
+<label>고객사:</label>
+<input type="text" name="client_name"><br>
+
+<label>상담 카테고리:</label>
+<select name="category">
+    <option value="견적">견적</option>
+    <option value="샘플구매">샘플구매</option>
+    <option value="기술문의">기술문의</option>
+    <option value="불만접수">불만접수</option>
+</select><br>
+
+<label>상담 내용:</label><br>
+<textarea name="contents" rows="4" cols="50"></textarea><br>
+
+<label>후속 조치:</label>
+<input type="text" name="action_required"><br>
+
+<label>상태:</label>
+<select name="status">
+    <option value="진행중">진행중</option>
+    <option value="완료">완료</option>
+</select><br>
+
+<hr>
+
+<h2>👤 고객사 세부 정보</h2>
+
+<label>상담자 이름:</label>
+<input type="text" name="writer"><br>
+
+<label>메일 주소:</label>
+<input type="email" name="email"><br>
+
+<label>회사명:</label>
+<input type="text" name="company"><br>
+
+<label>주소:</label>
+<input type="text" name="address"><br>
+
+<label>도시:</label>
+<input type="text" name="city"><br>
+
+<label>도/국가:</label>
+<input type="text" name="state_country"><br>
+
+<label>전화번호:</label>
+<input type="text" name="phone"><br>
+
+<label>직급:</label>
+<input type="text" name="position"><br>
+
+<label>직무:</label>
+<input type="text" name="job"><br>
+
+<label>산업:</label>
+<input type="text" name="industry"><br>
+
+<hr>
+
+<button type="submit">제출하기</button>
+
+<p style="font-size: 0.9em; color: gray; margin-top: 10px;">
+    ➨ 입력된 정보는 수집 및 이용목적, 수집항목, 보유기간 등을 명시한 <strong>개인 정보 보호 정책</strong>에 의거하여 보호됩니다.
+</p>
+</form>

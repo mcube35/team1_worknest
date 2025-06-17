@@ -1,0 +1,71 @@
+<h2>📋 직원 목록</h2>
+
+<!-- 🔍 검색 및 필터 폼 -->
+<form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="search" placeholder="이름 또는 이메일" value="{{ search }}">
+    <input type="text" name="department" placeholder="부서" value="{{ department }}">
+    <input type="text" name="position" placeholder="직급" value="{{ position }}">
+    <label>입사일:</label>
+    <input type="date" name="from_date" value="{{ from_date }}">
+    <span>~</span>
+    <input type="date" name="to_date" value="{{ to_date }}">
+    <button type="submit">검색</button>
+</form>
+
+<table border="1" cellpadding="8">
+<thead>
+    <tr>
+    <th>ID</th>
+    <th>이름</th>
+    <th>부서</th>
+    <th>직급</th>
+    <th>이메일</th>
+    <th>전화</th>
+    <th>입사일</th>
+    <th>퇴사일</th>
+    <th>고용형태</th>
+    <th>관리</th>
+    </tr>
+</thead>
+<tbody>
+    {% for emp in employees %}
+    <tr>
+        <td>{{ emp._id }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.department }}</td>
+        <td>{{ emp.position }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.phone }}</td>
+        <td>{{ emp.hire_date_str }}</td>
+        <td>{{ emp.retire_date_str or '-' }}</td>
+        <td>{{ emp.employment_type }}</td>
+        <td>
+            <a href="{{ url_for('edit_employee', emp_id=emp._id) }}">
+                <button>수정</button>
+            </a>
+        </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="10">등록된 직원이 없습니다.</td></tr>
+    {% endfor %}
+</tbody>
+</table>
+
+{% if request.args.get('message') %}
+<script>
+    alert("{{ request.args.get('message') }}");
+</script>
+{% endif %}
+
+<!-- 📌 페이징 -->
+<div style="margin-top: 20px;">
+    {% if page > 1 %}
+        <a href="?search={{ search }}&department={{ department }}&position={{ position }}&from_date={{ from_date }}&to_date={{ to_date }}&page={{ page - 1 }}">이전</a>
+    {% endif %}
+
+    페이지 {{ page }} / {{ (total_count // 10) + (1 if total_count % 10 else 0) }}
+
+    {% if page * 10 < total_count %}
+        <a href="?search={{ search }}&department={{ department }}&position={{ position }}&from_date={{ from_date }}&to_date={{ to_date }}&page={{ page + 1 }}">다음</a>
+    {% endif %}
+</div>

@@ -1,0 +1,41 @@
+<h2>👤 직원 등록</h2>
+
+<form method="POST" action="{{ url_for('add_employee') }}">
+
+<label>이름:</label><br>
+<input type="text" name="name" required><br>
+
+<label>부서:</label><br>
+<input type="text" name="department"><br>
+
+<label>직급:</label><br>
+<input type="text" name="position"><br>
+
+<label>이메일:</label><br>
+<input type="email" name="email"><br>
+
+<label>전화번호:</label><br>
+<input type="text" name="phone"><br>
+
+<label>입사일:</label><br>
+<input type="date" name="hire_date"><br>
+
+<label>퇴사일 (선택):</label><br>
+<input type="date" name="retire_date"><br>
+
+<label>고용 형태:</label><br>
+<select name="employment_type">
+    <option value="정규직">정규직</option>
+    <option value="계약직">계약직</option>
+    <option value="인턴">인턴</option>
+    <option value="퇴사">퇴사</option>
+</select><br><br>
+
+<button type="submit">등록</button>
+
+</form>
+{% if request.args.get('message') %}
+<script>
+    alert("{{ request.args.get('message') }}");
+</script>
+{% endif %}

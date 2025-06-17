@@ -1,0 +1,17 @@
+<form method="POST">
+    <label>상태:</label>
+    <select name="status">
+        <option value="진행중" {% if contact.status == '진행중' %}selected{% endif %}>진행중</option>
+        <option value="완료" {% if contact.status == '완료' %}selected{% endif %}>완료</option>
+        <option value="답변완료" {% if contact.status == '답변완료' %}selected{% endif %}>답변완료</option>
+    </select><br><br>
+
+    <label>상담 내용:</label><br>
+    <textarea name="contents" rows="4" cols="60">{{ contact.contents or '' }}</textarea><br><br>
+
+    <label>답변:</label><br>
+    <textarea name="reply" rows="6" cols="60">{{ contact.reply or '' }}</textarea><br><br>
+
+    <button type="submit">저장</button>
+    <button type="submit" name="action" value="delete" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+</form>
