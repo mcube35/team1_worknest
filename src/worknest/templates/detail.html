@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<article class="post-detail">
+    <h2>{{ post.title }}</h2>
+    <p class="meta">작성자: {{ post.author }} | 작성일: {{ post.createdAt.strftime('%Y-%m-%d %H:%M') }}
+        {% if post.updatedAt %}
+        | 수정일: {{ post.updatedAt.strftime('%Y-%m-%d %H:%M') }}
+        {% endif %}
+    </p>
+    <div class="content">
+        {{ post.content | nl2br }}
+    </div>
+
+    <div class="post-actions">
+        <a href="{{ url_for('edit', post_id=post._id) }}">수정</a>
+        <form method="POST" action="{{ url_for('delete', post_id=post._id) }}" style="display:inline;">
+        <button type="submit" onclick="return confirm('삭제하시겠습니까?')">삭제</button>
+    </form>
+    </div>
+</article>
+
+<section class="comments">
+    <h3>댓글 ({{ post.comments|length }})</h3>
+    {% if post.comments %}
+    <ul>
+    {% for comment in post.comments %}
+    <li>
+        <b>{{ comment.author }}</b> <small>{{ comment.createdAt.strftime('%Y-%m-%d %H:%M') }}</small>
+        <p>{{ comment.content | nl2br }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>댓글이 없습니다.</p>
+{% endif %}
+
+<h4>댓글 작성</h4>
+<form method="POST">
+    <label>작성자: <input type="text" name="comment_author" required></label><br/>
+    <label>내용:<br/>
+        <textarea name="comment_content" rows="4" required></textarea>
+    </label><br/>
+    <button type="submit">댓글 등록</button>
+</form>
+</section>
+
+{% endblock %}

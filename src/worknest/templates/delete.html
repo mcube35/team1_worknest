@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}글 삭제 확인 - {{ post.title }}{% endblock %}
+
+{% block content %}
+<h2>글 삭제 확인</h2>
+<p>아래 글을 삭제하시겠습니까?</p>
+<h3>{{ post.title }}</h3>
+<div style="white-space: pre-wrap; border:1px solid #ccc; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+    {{ post.content }}
+</div>
+
+<form method="post" action="{{ url_for('delete', post_id=post._id) }}">
+    <button type="submit" class="btn" style="background-color: #dc3545;">삭제하기</button>
+    <a href="{{ url_for('detail', post_id=post._id) }}" class="btn" style="background-color: #6c757d;">취소</a>
+</form>
+{% endblock %}
