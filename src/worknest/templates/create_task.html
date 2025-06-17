@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>업무 등록</title>
+</head>
+<body>
+    <h1>업무 등록</h1>
+    <form method="post">
+        <label>제목: <input type="text" name="title" required></label><br>
+        <label>설명: <textarea name="description"></textarea></label><br>
+        <label>상태:
+            <select name="status">
+                <option value="대기">대기</option>
+                <option value="진행중">진행중</option>
+                <option value="완료">완료</option>
+            </select>
+        </label><br>
+        <label>담당자: <input type="text" name="assigned_to"></label><br>
+        <input type="submit" value="등록">
+    </form>
+    <p><a href="/projects">[목록으로 돌아가기]</a></p>
+</body>
+</html>

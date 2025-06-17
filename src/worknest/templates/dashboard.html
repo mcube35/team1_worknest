@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>대시보드</h1>
+    <p><a href="/projects">[프로젝트 목록 보기]</a></p>
+    <h2>업무 현황</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.status }} - 담당자: {{ task.assigned_to }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

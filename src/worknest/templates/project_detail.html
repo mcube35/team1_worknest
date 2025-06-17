@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>업무 상세</title>
+</head>
+<body>
+    <h1>업무 상세</h1>
+    <p><a href="/projects">[목록으로 돌아가기]</a></p>
+    <ul>
+        <li><strong>ID:</strong> {{ task.id }}</li>
+        <li><strong>제목:</strong> {{ task.title }}</li>
+        <li><strong>설명:</strong> {{ task.description }}</li>
+        <li><strong>상태:</strong> {{ task.status }}</li>
+        <li><strong>담당자:</strong> {{ task.assigned_to }}</li>
+        <li><strong>등록일:</strong> {{ task.created_at }}</li>
+    </ul>
+</body>
+</html>

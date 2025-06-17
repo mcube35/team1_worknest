@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>프로젝트 목록</title>
+</head>
+<body>
+    <h1>프로젝트 목록</h1>
+    <p><a href="/">[대시보드]</a> <a href="/projects/new">[업무 등록]</a></p>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>상태</th>
+            <th>담당자</th>
+            <th>등록일</th>
+            <th>상세보기</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.title }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.assigned_to }}</td>
+            <td>{{ task.created_at }}</td>
+            <td><a href="/projects/{{ task.id }}">보기</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
