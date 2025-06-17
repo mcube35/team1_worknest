@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>문의 상세보기</title>
+</head>
+<body>
+  <h1>{{ inquiry.title }}</h1>
+  <p>{{ inquiry.content }}</p>
+
+  <a href="{{ url_for('inquiries_list') }}">목록으로 돌아가기</a>
+</body>
+</html>

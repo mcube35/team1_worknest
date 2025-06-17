@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>문의 페이지</title>
+<style>
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f9f9f9;
+    padding: 40px;
+  }
+  form {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    resize: vertical;
+    font-size: 16px;
+    font-family: inherit;
+  }
+  .char-count {
+    font-size: 14px;
+    color: #666;
+    text-align: right;
+    margin-top: 4px;
+  }
+  button {
+    margin-top: 20px;
+    background-color: #6856a8;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  button:hover {
+    background-color: #5a478c;
+  }
+</style>
+</head>
+<body>
+  <form method="post" action="/useinquiries_list">
+    <label for="title">제목</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="content">내용</label>
+    <textarea id="content" name="content" rows="6" maxlength="1000" required></textarea>
+    <div class="char-count" id="charCount">1000자 남음</div>
+
+    <button type="submit">문의 보내기</button>
+  </form>
+
+  <script>
+    const textarea = document.getElementById('content');
+    const charCount = document.getElementById('charCount');
+    const maxLength = 1000;
+
+    textarea.addEventListener('input', () => {
+      const remaining = maxLength - textarea.value.length;
+      charCount.textContent = `${remaining}자 남음`;
+    });
+  </script>
+</body>
+</html>
