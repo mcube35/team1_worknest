@@ -2,9 +2,11 @@ from flask import Flask
 from flask_pymongo import PyMongo
 from repository.issue import IssueRepository
 from routes.issue_routes import *
+from path_helper import PROJECT_DIR
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/issue_db"
+app.config['UPLOAD_FOLDER'] = PROJECT_DIR / "static" / "uploads"
 
 mongo = PyMongo(app)
 repo = IssueRepository(mongo.db.issues)

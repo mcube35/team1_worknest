@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>이슈 수정</title>
+</head>
+<body>
+    <h1>이슈 수정</h1>
+
+    <form action="{{ url_for('issue.edit_issue', id=issue._id) }}" method="post">
+        <label for="title">제목:</label><br/>
+        <input type="text" id="title" name="title" value="{{ issue.title }}" required /><br /><br />
+
+        <label for="description">설명:</label><br/>
+        <textarea id="description" name="description" rows="5" cols="40" required>{{ issue.description }}</textarea><br /><br />
+
+        <label for="priority">우선순위:</label><br/>
+        <select id="priority" name="priority" required>
+            <option value="low" {% if issue.priority == 'low' %}selected{% endif %}>낮음</option>
+            <option value="medium" {% if issue.priority == 'medium' %}selected{% endif %}>보통</option>
+            <option value="high" {% if issue.priority == 'high' %}selected{% endif %}>높음</option>
+        </select><br /><br />
+
+        <label for="status">상태:</label><br/>
+        <select id="status" name="status" required>
+            <option value="open" {% if issue.status == 'open' %}selected{% endif %}>열림</option>
+            <option value="in_progress" {% if issue.status == 'in_progress' %}selected{% endif %}>진행중</option>
+            <option value="closed" {% if issue.status == 'closed' %}selected{% endif %}>완료</option>
+        </select><br /><br />
+
+        <label for="assigned_to">담당자:</label><br/>
+        <input type="text" id="assigned_to" name="assigned_to" value="{{ issue.assigned_to }}" /><br /><br />
+
+        <button type="submit">수정 완료</button>
+    </form>
+
+    <p><a href="{{ url_for('issue.view_issue', id=issue._id) }}">이전으로 돌아가기</a></p>
+</body>
+</html>

@@ -14,6 +14,65 @@
     <p><strong>담당자:</strong> {{ issue.assigned_to }}</p>
     <p><strong>생성일:</strong> {{ issue.created_at.strftime('%Y-%m-%d %H:%M') if issue.created_at else 'N/A' }}</p>
 
+    <hr>
+
+    <h2>첨부 파일</h2>
+    <ul>
+    {% for filename in issue.attachments %}
+        <li>
+        {% set ext = filename.split('.')[-1].lower() %}
+        {% if ext in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'] %}
+            <img src="{{ url_for('static', filename='uploads/' ~ filename) }}" alt="{{ filename }}" style="max-width: 300px; max-height: 300px;">
+        {% else %}
+            <a href="{{ url_for('static', filename='uploads/' ~ filename) }}" download>{{ filename }}</a>
+        {% endif %}
+        </li>
+    {% else %}
+        <li>첨부 파일이 없습니다.</li>
+    {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{{ url_for('issue.edit_issue', id=issue._id) }}">
+            이슈 수정하기
+        </a>
+        <br>
+        <form action="{{ url_for('issue.delete_issue', id=issue._id) }}" method="post" style="display:inline;">
+            <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">이슈 삭제하기</button>
+        </form>
+    </p>
     <a href="{{ url_for('issue.list_issues') }}">← 목록으로 돌아가기</a>
+
+    <hr>
+
+    <h2>댓글 ({{ issue.comments|length }})</h2>
+    <ul>
+        {% for comment in issue.comments %}
+            <li>
+                <strong>{{ comment.author }}</strong> - 
+                <em>{{ comment.created_at.strftime('%Y-%m-%d %H:%M') if comment.created_at else '' }}</em><br>
+                {{ comment.content }}
+            </li>
+        {% else %}
+            <li>댓글이 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h3>댓글 작성</h3>
+    <form action="{{ url_for('issue.add_comment', id=issue._id) }}" method="post">
+        <p>
+            <label for="author">작성자:</label><br>
+            <input type="text" id="author" name="author" required>
+        </p>
+        <p>
+            <label for="content">내용:</label><br>
+            <textarea id="content" name="content" rows="4" required></textarea>
+        </p>
+        <p>
+            <button type="submit">댓글 추가</button>
+        </p>
+    </form>
 </body>
 </html>

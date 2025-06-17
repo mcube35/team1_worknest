@@ -7,6 +7,28 @@
 <body>
     <h1>이슈 목록</h1>
 
+    <form method="get" action="{{ url_for('issue.list_issues') }}">
+        <label for="status">상태:</label>
+        <select name="status" id="status">
+            <option value="">전체</option>
+            <option value="open" {% if current_status == 'open' %}selected{% endif %}>열림</option>
+            <option value="in_progress" {% if current_status == 'in_progress' %}selected{% endif %}>진행중</option>
+            <option value="closed" {% if current_status == 'closed' %}selected{% endif %}>완료</option>
+        </select>
+
+        <label for="priority">우선순위:</label>
+        <select name="priority" id="priority">
+            <option value="">전체</option>
+            <option value="low" {% if current_priority == 'low' %}selected{% endif %}>낮음</option>
+            <option value="medium" {% if current_priority == 'medium' %}selected{% endif %}>보통</option>
+            <option value="high" {% if current_priority == 'high' %}selected{% endif %}>높음</option>
+        </select>
+
+        <button type="submit">필터 적용</button>
+    </form>
+
+    <br/>
+
     <table border="1">
         <thead>
             <tr>
@@ -20,13 +42,17 @@
             {% for issue in issues %}
             <tr>
                 <td>
-                    <a href="{{ url_for('issue.view_issue', id=issue._id.__str__()) }}">
+                    <a href="{{ url_for('issue.view_issue', id=issue._id) }}">
                         {{ issue.title }}
                     </a>
                 </td>
                 <td>{{ issue.priority }}</td>
                 <td>{{ issue.status }}</td>
                 <td>{{ issue.assigned_to }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">이슈가 없습니다.</td>
             </tr>
             {% endfor %}
         </tbody>
