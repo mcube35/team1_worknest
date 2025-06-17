@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>이슈 상세 보기</title>
+</head>
+<body>
+    <h1>이슈 상세 보기</h1>
+
+    <p><strong>제목:</strong> {{ issue.title }}</p>
+    <p><strong>설명:</strong> {{ issue.description }}</p>
+    <p><strong>우선순위:</strong> {{ issue.priority }}</p>
+    <p><strong>상태:</strong> {{ issue.status }}</p>
+    <p><strong>담당자:</strong> {{ issue.assigned_to }}</p>
+    <p><strong>생성일:</strong> {{ issue.created_at.strftime('%Y-%m-%d %H:%M') if issue.created_at else 'N/A' }}</p>
+
+    <a href="{{ url_for('issue.list_issues') }}">← 목록으로 돌아가기</a>
+</body>
+</html>

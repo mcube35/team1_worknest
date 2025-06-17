@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>이슈 목록</title>
+</head>
+<body>
+    <h1>이슈 목록</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>우선순위</th>
+                <th>상태</th>
+                <th>담당자</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for issue in issues %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('issue.view_issue', id=issue._id.__str__()) }}">
+                        {{ issue.title }}
+                    </a>
+                </td>
+                <td>{{ issue.priority }}</td>
+                <td>{{ issue.status }}</td>
+                <td>{{ issue.assigned_to }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

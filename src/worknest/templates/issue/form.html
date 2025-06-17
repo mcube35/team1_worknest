@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>이슈 등록</title>
+</head>
+<body>
+    <h1>새 이슈 등록</h1>
+    <form action="{{ url_for('issue.create_issue') }}" method="post">
+        <label>제목: <input type="text" name="title" required /></label><br />
+        <label>설명: <textarea name="description" required></textarea></label><br />
+        <label>우선순위: 
+            <select name="priority" required>
+                <option value="low">낮음</option>
+                <option value="medium" selected>중간</option>
+                <option value="high">높음</option>
+            </select>
+        </label><br />
+        <label>담당자: <input type="text" name="assigned_to" required /></label><br />
+        <button type="submit">등록</button>
+    </form>
+</body>
+</html>
