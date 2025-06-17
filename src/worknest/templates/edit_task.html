@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>업무 수정</title>
+</head>
+<body>
+    <h1>업무 수정</h1>
+    <form id="edit-form" action="{{ url_for('edit_task', id=task._id) }}" method="post" enctype="multipart/form-data">
+        <p>
+            <label>제목:</label><br>
+            <input type="text" name="title" value="{{ task.title }}" required>
+        </p>
+        <p>업무유형:
+            <select name="type">
+                <option value="개발" {% if task.type == '개발' %}selected{% endif %}>개발</option>
+                <option value="디자인" {% if task.type == '디자인' %}selected{% endif %}>디자인</option>
+                <option value="기획" {% if task.type == '기획' %}selected{% endif %}>기획</option>
+                <option value="테스트" {% if task.type == '테스트' %}selected{% endif %}>테스트</option>
+            </select>
+        </p>
+        <p>
+            <label>설명:</label><br>
+            <textarea name="description" rows="4">{{ task.description }}</textarea>
+        </p>
+        <p>상태:
+            <select name="status">
+                <option value="대기" {% if task.status == '대기' %}selected{% endif %}>대기</option>
+                <option value="진행중" {% if task.status == '진행중' %}selected{% endif %}>진행중</option>
+                <option value="완료" {% if task.status == '완료' %}selected{% endif %}>완료</option>
+            </select>
+        </p>
+        <p>
+            <label>담당자:</label><br>
+            <input type="text" name="assigned_to" value="{{ task.assigned_to }}" required>
+        </p>
+        <p>
+            <label>마감일:</label><br>
+            <input type="date" name="deadline" value="{{ task.deadline }}" required>
+        </p>
+        <p>
+            <label>진행도(%):</label><br>
+            <input type="number" name="progress" min="0" max="100" value="{{ task.progress }}" required>
+        </p>
+
+        <p>
+            <label>기존 첨부파일:</label><br>
+            {% if task.file_ids %}
+                <ul>
+                {% for file in file_infos %}
+                    <li>
+                        <a href="{{ url_for('serve_file', file_id=file.id) }}" target="_blank">{{ file.filename }}</a>
+                        <label>
+                            <input type="checkbox" name="delete_files" value="{{ file.id }}"> 삭제
+                        </label>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>첨부파일이 없습니다.</p>
+            {% endif %}
+        </p>
+
+        <p>
+            <label>새 파일 첨부:</label><br>
+            <div id="file-list"></div>
+            <input type="file" id="file-input" accept=".pdf,.png,.jpg,.jpeg,.docx,.xlsx,.txt" multiple style="display:none;">
+            <button type="button" id="add-files-btn">파일 선택</button>
+        </p>
+
+        <p>
+            <button type="submit">수정</button>
+        </p>
+    </form>
+
+    <p><a href="{{ url_for('project_detail', id=task._id) }}">[상세보기로]</a></p>
+
+<script>
+const fileInput = document.getElementById('file-input');
+const fileListDiv = document.getElementById('file-list');
+const addFilesBtn = document.getElementById('add-files-btn');
+const form = document.getElementById('edit-form');
+
+let filesArray = [];
+
+addFilesBtn.addEventListener('click', () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener('change', (e) => {
+    for (const file of e.target.files) {
+        filesArray.push(file);
+    }
+    updateFileList();
+    fileInput.value = '';
+});
+
+function updateFileList() {
+    fileListDiv.innerHTML = '';
+    filesArray.forEach((file, idx) => {
+        const fileDiv = document.createElement('div');
+        fileDiv.textContent = file.name + ' ';
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.textContent = '삭제';
+        removeBtn.addEventListener('click', () => {
+            filesArray.splice(idx, 1);
+            updateFileList();
+        });
+        fileDiv.appendChild(removeBtn);
+        fileListDiv.appendChild(fileDiv);
+    });
+}
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    filesArray.forEach(file => {
+        formData.append('file', file);
+    });
+
+    fetch(form.action, {
+        method: form.method,
+        body: formData
+    }).then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+            alert('업무 수정에 실패했습니다.');
+        }
+    });
+});
+</script>
+</body>
+</html>

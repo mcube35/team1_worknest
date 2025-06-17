@@ -1,18 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>업무 상세</title>
+    <title>업무 상세보기</title>
 </head>
 <body>
-    <h1>업무 상세</h1>
-    <p><a href="/projects">[목록으로 돌아가기]</a></p>
+    <h1>업무 상세보기</h1>
+    <p><a href="{{ url_for('project_list') }}">[목록으로]</a> <a href="{{ url_for('edit_task', id=task._id) }}">[수정]</a></p>
     <ul>
-        <li><strong>ID:</strong> {{ task.id }}</li>
         <li><strong>제목:</strong> {{ task.title }}</li>
+        <li><strong>업무유형:</strong> {{ task.type }}</li>
         <li><strong>설명:</strong> {{ task.description }}</li>
         <li><strong>상태:</strong> {{ task.status }}</li>
+        <li>
+            <strong>첨부파일:</strong>
+            {% if task.file_ids %}
+                <ul>
+                    {% for fid in task.file_ids %}
+                        <li>
+                            <a href="{{ url_for('serve_file', file_id=fid) }}" target="_blank">{{ fid }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>첨부파일이 없습니다.</p>
+            {% endif %}
+        </li>
         <li><strong>담당자:</strong> {{ task.assigned_to }}</li>
         <li><strong>등록일:</strong> {{ task.created_at }}</li>
+        <li><strong>마감일:</strong> {{ task.deadline }}</li>
+        <li><strong>진행도:</strong> {{ task.progress }}%</li>
     </ul>
+    <form action="{{ url_for('delete_task', id=task._id) }}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+        <button type="submit">삭제</button>
+    </form>
+    <h3>댓글</h3>
+<ul>
+{% for comment in comments %}
+    <li>
+        <strong>{{ comment.author }}</strong>
+        ({{ comment.created_at.strftime('%Y-%m-%d %H:%M') }})<br>
+        {{ comment.content|e }}
+
+        <!-- 수정 버튼 (토글용) -->
+        <button type="button" onclick="toggleEdit('{{ comment._id }}')">수정</button>
+
+        <!-- 수정 폼 (기본적으로 숨김) -->
+        <form id="edit-form-{{ comment._id }}" action="{{ url_for('edit_comment', comment_id=comment._id) }}" method="post" style="display: none; margin-top: 5px;">
+            <input type="text" name="content" value="{{ comment.content|e }}" required>
+            <button type="submit">저장</button>
+        </form>
+
+        <!-- 삭제 폼 -->
+        <form action="{{ url_for('delete_comment', comment_id=comment._id) }}" method="post" style="display:inline;">
+            <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+        </form>
+    </li>
+{% else %}
+    <li>댓글이 없습니다.</li>
+{% endfor %}
+</ul>
+
+<h4>댓글 작성</h4>
+<form action="{{ url_for('add_comment', task_id=task._id) }}" method="post">
+    <input type="text" name="author" placeholder="작성자 이름" required><br>
+    <textarea name="content" placeholder="댓글 내용을 입력하세요" required></textarea><br>
+    <button type="submit">댓글 등록</button>
+</form>
+
+<!-- JS: 댓글 수정 폼 토글 -->
+<script>
+function toggleEdit(commentId) {
+    const form = document.getElementById('edit-form-' + commentId);
+    if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+}
+</script>
 </body>
 </html>

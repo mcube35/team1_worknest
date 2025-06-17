@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>프로젝트 목록</title>
+    <title>업무 목록</title>
 </head>
 <body>
-    <h1>프로젝트 목록</h1>
-    <p><a href="/">[대시보드]</a> <a href="/projects/new">[업무 등록]</a></p>
+    <h1>업무 목록</h1>
+    <p><a href="/">[메인으로]</a> <a href="/projects/new">[업무 등록]</a></p>
     <table border="1">
         <tr>
-            <th>ID</th>
             <th>제목</th>
+            <th>업무유형</th>
             <th>상태</th>
             <th>담당자</th>
             <th>등록일</th>
+            <th>마감일</th>
+            <th>진행도</th>
             <th>상세보기</th>
         </tr>
         {% for task in tasks %}
         <tr>
-            <td>{{ task.id }}</td>
             <td>{{ task.title }}</td>
+            <td>{{ task.type }}</td>
             <td>{{ task.status }}</td>
             <td>{{ task.assigned_to }}</td>
             <td>{{ task.created_at }}</td>
-            <td><a href="/projects/{{ task.id }}">보기</a></td>
+            <td>{{ task.deadline }}%</td>
+            <td>{{ task.progress }}</td>
+            <td><a href="{{ url_for('project_detail', id=task._id) }}">보기</a></td>
         </tr>
         {% endfor %}
     </table>
+    <form method="get" action="{{ url_for('project_list') }}">
+        <select name="type">
+            <option value="">-- 업무유형 선택 --</option>
+            {% for t in task_types %}
+                <option value="{{ t }}" {% if t == task_type %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="search" placeholder="검색어 입력" value="{{ search }}">
+
+        <button type="submit">검색</button>
+
+        {% if search or task_type %}
+            <a href="{{ url_for('project_list') }}">필터 초기화</a>
+        {% endif %}
+    </form>
 </body>
 </html>
