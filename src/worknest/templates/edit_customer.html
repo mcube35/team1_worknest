@@ -1,0 +1,33 @@
+<!-- templates/edit_customer.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>고객사 정보 수정</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>고객사 정보 수정</h1>
+
+    <form method="POST">
+        <label>이름:</label>
+        <input type="text" name="name" value="{{ customer.name }}" required><br>
+
+        <label>연락처:</label>
+        <input type="text" name="phone" value="{{ customer.phone }}"><br>
+
+        <label>이메일:</label>
+        <input type="email" name="email" value="{{ customer.email }}"><br>
+
+        <label>주소:</label>
+        <input type="text" name="address" value="{{ customer.address }}"><br>
+
+        <label>비고:</label>
+        <textarea name="note">{{ customer.note }}</textarea><br>
+
+        <button type="submit">수정 완료</button>
+    </form>
+
+    <p><a href="/customers">← 목록으로 돌아가기</a></p>
+</body>
+</html>
