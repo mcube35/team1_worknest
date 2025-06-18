@@ -45,6 +45,7 @@ def edit_customer(id):
             "$set": {
                 "name": request.form['name'],
                 "contact": request.form['contact'],
+                "phone": request.form['phone'], 
                 "email": request.form['email']
             }
         })
