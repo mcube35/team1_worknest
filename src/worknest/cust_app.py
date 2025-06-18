@@ -19,12 +19,14 @@ def form():
 def register():
     name = request.form.get('name')
     contact = request.form.get('contact')
+    phone = request.form.get('phone') 
     email = request.form.get('email')
 
     if name:
         collection.insert_one({
             'name': name,
             'contact': contact,
+            'phone': phone, 
             'email': email
         })
     return redirect('/')
