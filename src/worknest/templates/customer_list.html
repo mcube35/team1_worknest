@@ -1,0 +1,33 @@
+<!-- templates/customer_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>고객사 목록</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>고객사 목록</h1>
+
+    <table border="1">
+        <tr>
+            <th>이름</th>
+            <th>연락처</th>
+            <th>이메일</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.email }}</td>
+            <td><a href="/edit/{{ customer._id }}">수정</a></td>
+            <td><a href="/delete/{{ customer._id }}" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="/register">새 고객 등록</a></p>
+</body>
+</html>
